@@ -325,11 +325,18 @@ runs:
         # Scope out the keychain
         security find-identity -v macos-build.keychain
 
-        # Force the codesignature
-        codesign --force ${{ inputs.options }} -s "${{ steps.code-sign-action-internal.outputs.signid }}" "${{ steps.code-sign-action-internal.outputs.file }}"
+        output_file="${{ steps.code-sign-action-internal.outputs.file }}"
+        IFS=$'\n' files=($output_file)
+        for i in "${files[@]}"
+        do
+          :
+          # Force the codesignature
+          codesign --force ${{ inputs.options }} -s "${{ steps.code-sign-action-internal.outputs.signid }}" "$i"
 
-        # Verify the code signature
-        codesign -v "${{ steps.code-sign-action-internal.outputs.file }}" --verbose
+          # Verify the code signature
+          codesign -v "$i" --verbose
+
+        done
 
     # signing with signtool on windows
     - name: Signing with ${{ steps.code-sign-action-internal.outputs.signtool }} (${{ steps.code-sign-action-internal.outputs.os }})
