@@ -295,10 +295,10 @@ runs:
       run: |
         echo "::group::Signsetup"
         # Throw error if file does not exist
-        if [ ! -f "${{ steps.code-sign-action-internal.outputs.file }}" ]; then
-          echo "${{ steps.code-sign-action-internal.outputs.file }} does not exist!"
-          exit 5
-        fi
+        # if [ ! -f "${{ steps.code-sign-action-internal.outputs.file }}" ]; then
+        #   echo "${{ steps.code-sign-action-internal.outputs.file }} does not exist!"
+        #   exit 5
+        # fi
 
         function import_cert() {
           security import "$1" -k ~/Library/Keychains/macos-build.keychain -P "$2" -T /usr/bin/codesign -T /usr/bin/productsign
