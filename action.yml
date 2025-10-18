@@ -403,3 +403,9 @@ runs:
         echo "::group::Setting outputs"
         echo "file=${{ steps.code-sign-action-internal.outputs.file }}" >> $GITHUB_OUTPUT
         echo "::endgroup::"
+
+    - name: Cleanup keychain
+      if: always() # Always run this step to ensure the keychain is properly disposed of
+      shell: bash
+      run: |
+        security delete-keychain macos-build.keychain
