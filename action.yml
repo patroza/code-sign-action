@@ -326,7 +326,7 @@ runs:
         security find-identity -v macos-build.keychain
 
         output_file="${{ steps.code-sign-action-internal.outputs.file }}"
-        IFS=$'\n' files=($output_file)
+        IFS=$';' files=($output_file)
         for i in "${files[@]}"
         do
           :
